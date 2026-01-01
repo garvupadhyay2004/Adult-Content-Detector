@@ -1,5 +1,5 @@
 # Adult Content Detector (Deep Learning Project)
-
+#Project By Gaurav Upadhyay
 ## Overview
 This project is an Adult Content Detection system built using deep learning and transfer learning with MobileNetV2. The model classifies images as adult or non-adult content.
 
