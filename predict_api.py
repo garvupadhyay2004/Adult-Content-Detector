@@ -10,7 +10,11 @@ MODEL_PATH = "adult_content_detector.keras"
 THRESHOLD = 0.85
 
 # Load model once
-model = tf.keras.models.load_model(MODEL_PATH)
+model = tf.keras.models.load_model(
+    MODEL_PATH,
+    compile=False
+)
+
 
 def predict_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
@@ -29,4 +33,5 @@ def predict_image(img_path):
         "label": label,
         "confidence": round(confidence, 4)
     }
+
 
