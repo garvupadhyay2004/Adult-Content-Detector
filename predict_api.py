@@ -12,7 +12,8 @@ THRESHOLD = 0.85
 # Load model once
 model = tf.keras.models.load_model(
     MODEL_PATH,
-    compile=False
+    compile=False,
+    safe_mode=False
 )
 
 
@@ -33,5 +34,6 @@ def predict_image(img_path):
         "label": label,
         "confidence": round(confidence, 4)
     }
+
 
 
