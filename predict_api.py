@@ -6,7 +6,7 @@ from PIL import ImageFile
 # Allow truncated images
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-MODEL_PATH = "adult_content_detector.h5"
+MODEL_PATH = "adult_content_detector.keras"
 THRESHOLD = 0.85
 
 # Load model once
@@ -29,3 +29,4 @@ def predict_image(img_path):
         "label": label,
         "confidence": round(confidence, 4)
     }
+
