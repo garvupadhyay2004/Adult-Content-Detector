@@ -38,19 +38,22 @@ model = tf.keras.models.load_model(
 # -------------------------
 def predict_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
-    img_array = image.img_to_array(img)
-    img_array = img_array / 255.0
+    img_array = image.img_to_array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    confidence = float(model.predict(img_array)[0][0])
+    non_adult_prob = float(model.predict(img_array)[0][0])
+    adult_prob = 1 - non_adult_prob
 
-    if confidence >= THRESHOLD:
-        label = "⚠️ Potential Adult Content"
+    if adult_prob >= 0.5:
+        label = "Adult Content"
+        confidence = adult_prob
     else:
-        label = "✅ Likely Non-Adult Content"
+        label = "Non-Adult Content"
+        confidence = non_adult_prob
 
     return {
         "label": label,
         "confidence": round(confidence, 4)
     }
+
 
