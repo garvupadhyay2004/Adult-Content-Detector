@@ -1,20 +1,30 @@
+import streamlit as st
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from PIL import Image
-import gradio as gr
 
 MODEL_PATH = "adult_content_detector.h5"
 
 # Load model once
-model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model(MODEL_PATH, compile=False)
 
-def predict_image(img):
-    if img is None:
-        return "No image uploaded"
+model = load_model()
 
-    # Ensure RGB
-    img = img.convert("RGB")
+st.title("Adult Content Detector (Local Demo)")
+st.write("Upload an image to classify it as Adult or Non-Adult content.")
+st.write("⚠️ This is a local demo for educational purposes.")
+
+uploaded_file = st.file_uploader(
+    "Choose an image",
+    type=["jpg", "jpeg", "png"]
+)
+
+if uploaded_file is not None:
+    img = Image.open(uploaded_file).convert("RGB")
+    st.image(img, caption="Uploaded Image", use_column_width=True)
 
     # Preprocess image
     img = img.resize((224, 224))
@@ -25,17 +35,11 @@ def predict_image(img):
     non_adult_prob = float(model.predict(img_array)[0][0])
     adult_prob = 1 - non_adult_prob
 
+    st.subheader("Prediction Result")
+
     if adult_prob >= 0.5:
-        return f"🛑 Adult Content Detected\nConfidence: {adult_prob:.4f}"
+        st.error("🛑 Adult Content Detected")
+        st.write("Confidence:", round(adult_prob, 4))
     else:
-        return f"✅ Non-Adult Content\nConfidence: {non_adult_prob:.4f}"
-
-demo = gr.Interface(
-    fn=predict_image,
-    inputs=gr.Image(type="pil", label="Upload Image"),
-    outputs=gr.Textbox(label="Prediction Result"),
-    title="Adult Content Detector",
-    description="Upload an image to classify it as Adult or Non-Adult content.\n⚠️ Educational purposes only."
-)
-
-demo.launch()
+        st.success("✅ Non-Adult Content")
+        st.write("Confidence:", round(non_adult_prob, 4))
