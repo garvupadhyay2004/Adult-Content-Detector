@@ -29,6 +29,7 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=BATCH_SIZE,
     class_mode="binary"
 )
+print(train_generator.class_indices)
 
 val_generator = val_datagen.flow_from_directory(
     DATASET_PATH + "/val",
