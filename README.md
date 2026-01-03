@@ -2,7 +2,8 @@
 #Project By Gaurav Upadhyay
 
 IMPORTANT 
-"The model demonstrates the pipeline for image classification. Due to dataset limitations, it shows bias toward one class, which I identified during evaluation."
+"The model demonstrates the pipeline for image classification. Due to dataset limitations, it may show bias toward one class, which I identified during evaluation."
+edit- "model is working almost fine now, i've reduced biasness now "
 
 ## Overview
 This project is an Adult Content Detection system built using deep learning and transfer learning with MobileNetV2. The model classifies images as adult or non-adult content.
@@ -30,4 +31,5 @@ This project is an Adult Content Detection system built using deep learning and 
 ## How to Run Prediction
 ```bash
 python step5_predict_single_image.py
+
 
